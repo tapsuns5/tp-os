@@ -50,7 +50,7 @@ const Taskbar: React.FC<TaskbarProps> = ({ windows, activeWindowId, onAppClick, 
         <div className="absolute bottom-full left-0 w-64 retro-border-outset flex mb-1" onMouseLeave={() => setStartMenuOpen(false)}>
           <div className="bg-gray-600 w-8 flex items-end justify-center py-4">
              <div className="rotate-270 text-white font-bold whitespace-nowrap origin-bottom-left -translate-y-2 translate-x-1" style={{ writingMode: 'vertical-rl' }}>
-                NeoRetro <span className="text-gray-400">98</span>
+                TP-OS <span className="text-gray-400">98</span>
              </div>
           </div>
           <div className="flex-1 bg-[#c0c0c0] py-1">

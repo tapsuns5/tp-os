@@ -9,7 +9,7 @@ export interface BlogPostMetadata {
 }
 
 export const getAllBlogPosts = async (): Promise<BlogPost[]> => {
-  const blogModules = import.meta.glob('/blogs/*.md', { as: 'raw' }) as Record<string, () => Promise<string>>;
+  const blogModules = import.meta.glob('../blogs/*.md', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>;
   
   const posts: BlogPost[] = [];
   
@@ -57,7 +57,7 @@ export const getAllBlogPosts = async (): Promise<BlogPost[]> => {
 
 export const getBlogPost = async (slug: string): Promise<BlogPost | null> => {
   try {
-    const contentModule = await import(`/blogs/${slug}.md?raw`);
+    const contentModule = await import(`../blogs/${slug}.md?raw`);
     const content = contentModule.default as string;
     const post = await parseMarkdownPost(content, slug);
     return post;

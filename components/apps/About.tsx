@@ -156,7 +156,7 @@ const AboutApp: React.FC = () => {
         </div>
 
         <div className="text-[10px] text-center text-gray-500 pb-4">
-          NeoRetro v1.0.4 • Optimized for 800x600 resolution
+          TP-OS • Optimized for 800x600 resolution
         </div>
       </div>
     </div>

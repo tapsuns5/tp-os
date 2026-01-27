@@ -46,8 +46,14 @@ const ModernLayout: React.FC = () => {
     }
   };
 
+  const sidebarBaseClasses = "border-r border-zinc-800 flex flex-col bg-[#111111] transition-all duration-300 ease-in-out overflow-hidden";
+  const sidebarPositionClasses = isMobile ? "fixed z-50 h-full" : "relative flex-shrink-0 h-full";
+  const sidebarWidthClasses = isMobile 
+    ? `${isSidebarOpen ? "w-72 translate-x-0" : "w-0 -translate-x-full"}`
+    : "w-72 translate-x-0";
+
   return (
-    <div className="flex h-full text-zinc-400 font-sans animate-in fade-in duration-700 bg-[#09090b] relative">
+    <div className="flex h-full text-zinc-400 font-sans animate-in fade-in duration-700 bg-[#09090b]">
       {isMobile && isSidebarOpen && (
         <div
           className="absolute inset-0 bg-black/60 z-40 backdrop-blur-sm transition-opacity"
@@ -56,9 +62,7 @@ const ModernLayout: React.FC = () => {
       )}
 
       <aside
-        className={`fixed lg:relative z-50 h-full border-r border-zinc-800 flex flex-col bg-[#111111] transition-all duration-300 ease-in-out
-          ${isSidebarOpen ? "w-72 translate-x-0" : "w-0 lg:w-20 -translate-x-full lg:translate-x-0"} 
-          overflow-hidden`}
+        className={`${sidebarBaseClasses} ${sidebarPositionClasses} ${sidebarWidthClasses}`}
       >
         <div className="p-8 flex flex-col h-full min-w-[288px]">
           <div className="mb-12 flex flex-col items-center lg:items-start">
