@@ -1,12 +1,20 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <img width="580" height="475" alt="Retro Desktop" src="public/retro-desktop.png" />
+  <img width="580" height="475" alt="Modern Blog" src="public/modern-blog.png" />
 </div>
 
-# Run and deploy your AI Studio app
+# Retro OS & Modern Blog
 
-This contains everything you need to run your app locally.
+TP-OS is a nostalgic desktop environment built with React and Vite, featuring a retro-style interface with modern functionality. The app includes a desktop environment with icons for various applications, a taskbar, and a terminal emulator. It also features a modern blog built with React and Vite, featuring a dark theme and a responsive layout.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1CxSCwSJr0xAtuUuzkEiyz8IblM0DMbpQ
+## Key Features
+
+- Retro-style desktop environment with modern functionality
+- Modern blog with dark theme and responsive layout
+- SEO Optimized pages on build
+- No server needed
+- No Database needed
+- Markdown supported for blog posts
 
 ## Run Locally
 
@@ -15,6 +23,5 @@ View your app in AI Studio: https://ai.studio/apps/drive/1CxSCwSJr0xAtuUuzkEiyz8
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Run the app:
    `npm run dev`
