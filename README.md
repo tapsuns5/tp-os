@@ -15,6 +15,10 @@ TP-OS is a nostalgic desktop environment built with React and Vite, featuring a 
 - No server needed
 - No Database needed
 - Markdown supported for blog posts
+- Tailwind CSS for styling
+- React for frontend
+- Vite for build tool
+- SSG
 
 ## Run Locally
 
@@ -25,3 +29,16 @@ TP-OS is a nostalgic desktop environment built with React and Vite, featuring a 
    `npm install`
 2. Run the app:
    `npm run dev`
+
+## Build
+
+1. Generate Blogs from Markdown:
+   `npm run generate-blog`
+2. Build the app:
+   `npm run build`
+
+## Deploy
+
+1. Deploy the app to static hosting service
+   a. Use files generated in `dist` directory
+
