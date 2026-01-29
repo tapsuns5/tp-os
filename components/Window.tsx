@@ -22,13 +22,22 @@ const Window: React.FC<WindowProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const offset = useRef({ x: 0, y: 0 });
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const startDrag = (clientX: number, clientY: number) => {
     onFocus();
     setIsDragging(true);
     offset.current = {
-      x: e.clientX - pos.x,
-      y: e.clientY - pos.y
+      x: clientX - pos.x,
+      y: clientY - pos.y
     };
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    startDrag(e.clientX, e.clientY);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    startDrag(touch.clientX, touch.clientY);
   };
 
   useEffect(() => {
@@ -42,13 +51,28 @@ const Window: React.FC<WindowProps> = ({
     };
     const handleMouseUp = () => setIsDragging(false);
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isDragging && e.touches[0]) {
+        const t = e.touches[0];
+        setPos({
+          x: t.clientX - offset.current.x,
+          y: t.clientY - offset.current.y
+        });
+      }
+    };
+    const handleTouchEnd = () => setIsDragging(false);
+
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleTouchMove, { passive: false });
+      window.addEventListener('touchend', handleTouchEnd);
     }
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [isDragging]);
 
@@ -65,11 +89,13 @@ const Window: React.FC<WindowProps> = ({
         maxHeight: '80vh'
       }}
       onMouseDown={onFocus}
+      onTouchStart={(e) => { onFocus(); e.stopPropagation(); }}
     >
       {/* Title Bar */}
       <div 
         className={`flex items-center justify-between p-1 px-2 h-7 cursor-default select-none ${isActive ? 'retro-title-bar' : 'retro-title-bar-inactive'}`}
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         <div className="flex items-center gap-2 overflow-hidden">
           <span className="text-white text-sm font-bold truncate drop-shadow-sm">{title}</span>

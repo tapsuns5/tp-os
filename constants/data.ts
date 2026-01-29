@@ -40,7 +40,7 @@ export const PROJECTS: Project[] = [
   { 
     title: 'RetroOS', 
     description: 'A fully functional desktop simulation environment inspired by 90s nostalgia.', 
-    year: '2024', 
+    year: '2026', 
     tech: ['React', 'TS', 'Tailwind'],
     icon: '/retro-computer.png',
     iconType: 'image',
@@ -50,7 +50,7 @@ export const PROJECTS: Project[] = [
   { 
     title: 'Scheeme', 
     description: 'High-performance pomodoro timer with team sync capabilities via WebSockets.', 
-    year: '2023', 
+    year: '2026', 
     tech: ['Node.js', 'Redis', 'Next.js', 'Typescript', 'TailwindCSS', 'TipTap', 'Hocuspocus', 'ShadcnUI'],
     icon: '/scheemeIcon.png',
     iconType: 'image',

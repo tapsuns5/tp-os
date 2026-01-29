@@ -11,7 +11,6 @@ import GuestbookApp from './components/apps/Guestbook';
 import SkillsApp from './components/apps/Skills';
 import MinesweeperApp from './components/apps/Minesweeper';
 import SnakeApp from './components/apps/Snake';
-import ResumeApp from './components/apps/Resume';
 import WritingApp from './components/apps/Writing';
 import ModernLayout from './components/modern/ModernLayout';
 
@@ -45,16 +44,6 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
     zIndex: 10,
     x: 110,
     y: 110,
-  },
-  resume: {
-    id: "resume",
-    title: "Resume.docx",
-    icon: "📄",
-    isOpen: false,
-    isMinimized: false,
-    zIndex: 10,
-    x: 140,
-    y: 140,
   },
   skills: {
     id: "skills",
@@ -116,11 +105,41 @@ export default function App() {
   const [activeWindowId, setActiveWindowId] = useState<AppId | null>(null);
   const [maxZ, setMaxZ] = useState(10);
   const [time, setTime] = useState(new Date());
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const view = urlParams.get('view');
+    if (view === 'modern' || view === 'retro') {
+      setViewMode(view);
+    }
+  }, []);
+
+  const updateViewMode = useCallback((newViewMode: ViewMode) => {
+    setViewMode(newViewMode);
+    const url = new URL(window.location.href);
+    url.searchParams.set('view', newViewMode);
+    window.history.replaceState({}, '', url);
+  }, []);
+
+  const toggleViewMode = useCallback(() => {
+    const newView = viewMode === 'retro' ? 'modern' : 'retro';
+    updateViewMode(newView);
+  }, [viewMode, updateViewMode]);
 
   const openApp = useCallback((id: AppId) => {
     setWindows(prev => {
@@ -165,7 +184,6 @@ export default function App() {
     switch (id) {
       case 'about': return <AboutApp />;
       case 'writing': return <WritingApp />;
-      case 'resume': return <ResumeApp />;
       case 'projects': return <ProjectsApp />;
       case 'terminal': return <TerminalApp />;
       case 'guestbook': return <GuestbookApp />;
@@ -177,54 +195,71 @@ export default function App() {
   };
 
   return (
-    <div className={`h-screen w-screen overflow-hidden relative flex flex-col ${viewMode === 'retro' ? 'bg-[#008080]' : 'bg-[#09090b]'}`}>
-      
-      {/* View Toggle Button */}
-      <button 
-        onClick={() => setViewMode(viewMode === 'retro' ? 'modern' : 'retro')}
-        className={`absolute top-4 right-4 z-[10000] px-3 py-1.5 rounded-md font-bold transition-all border-2 flex items-center gap-2 shadow-lg
-          ${viewMode === 'retro' 
-            ? 'retro-border-outset text-black bg-[#c0c0c0] active:retro-border-inset' 
-            : 'bg-white/10 hover:bg-white/20 border-white/20 text-white'}`}
-      >
-        <span>{viewMode === 'retro' ? '🚀 Go Modern' : '📠 Go Retro'}</span>
-      </button>
+    <div className={`h-screen w-screen overflow-hidden flex flex-col relative ${viewMode === 'retro' ? 'bg-[#008080]' : 'bg-[#09090b]'}`}>
+      {/* Header */}
+      <div className="fixed top-0 left-0 right-0 h-16 flex items-center justify-end px-4 z-[10001]">
+        <button 
+          onClick={toggleViewMode}
+          className={`px-3 py-1.5 rounded-md font-bold transition-all border-2 flex items-center gap-2 shadow-lg
+            ${viewMode === 'retro' 
+              ? 'retro-border-outset text-black bg-[#c0c0c0] active:retro-border-inset' 
+              : 'bg-white/10 hover:bg-white/20 border-white/20 text-white'}`}
+        >
+          <span>{viewMode === 'retro' ? '🚀 Go Modern' : '📠 Go Retro'}</span>
+        </button>
+      </div>
 
-      {viewMode === 'retro' ? (
-        <>
-          {/* Desktop Icons Area */}
-          <div className="flex-1 p-4 grid grid-flow-col grid-rows-6 gap-6 w-fit h-full">
-            {(Object.values(INITIAL_WINDOWS) as WindowState[]).map(app => (
-              <DesktopIcon 
-                key={app.id} 
-                title={app.title} 
-                icon={app.icon} 
-                onDoubleClick={() => openApp(app.id)} 
-              />
-            ))}
+      {/* Content */}
+      <div className="flex-1 min-h-0 relative overflow-hidden pt-16 pb-14">
+        {viewMode === 'retro' ? (
+          <div className="flex flex-col h-full min-h-0 relative">
+            <div className="flex-1 min-h-0 relative">
+              {/* Desktop Icons Area */}
+              <div className={`h-full ${isMobile ? 'p-4 flex flex-wrap gap-4 overflow-auto' : 'p-4 grid grid-flow-col grid-rows-6 gap-6 w-fit h-full overflow-auto'}`}>
+                {(Object.values(INITIAL_WINDOWS) as WindowState[]).map(app => (
+                  <DesktopIcon 
+                    key={app.id} 
+                    title={app.title} 
+                    icon={app.icon} 
+                    onDoubleClick={() => openApp(app.id)} 
+                  />
+                ))}
+              </div>
+
+              {/* Windows Layer (absolute overlay so footer stays sticky) */}
+              <div className="absolute inset-0 pointer-events-none">
+                {(Object.values(windows) as WindowState[]).map(win => (
+                  win.isOpen && !win.isMinimized && (
+                    <div key={win.id} className="pointer-events-auto">
+                      <Window
+                        id={win.id}
+                        title={win.title}
+                        zIndex={win.zIndex}
+                        isActive={activeWindowId === win.id}
+                        onClose={() => closeApp(win.id)}
+                        onMinimize={() => toggleMinimize(win.id)}
+                        onFocus={() => focusApp(win.id)}
+                        initialX={win.x}
+                        initialY={win.y}
+                      >
+                        {renderAppContent(win.id)}
+                      </Window>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
           </div>
+        ) : (
+          <div className="h-full overflow-hidden">
+            <ModernLayout />
+          </div>
+        )}
+      </div>
 
-          {/* Windows Layer */}
-          {(Object.values(windows) as WindowState[]).map(win => (
-            win.isOpen && !win.isMinimized && (
-              <Window
-                key={win.id}
-                id={win.id}
-                title={win.title}
-                zIndex={win.zIndex}
-                isActive={activeWindowId === win.id}
-                onClose={() => closeApp(win.id)}
-                onMinimize={() => toggleMinimize(win.id)}
-                onFocus={() => focusApp(win.id)}
-                initialX={win.x}
-                initialY={win.y}
-              >
-                {renderAppContent(win.id)}
-              </Window>
-            )
-          ))}
-
-          {/* Taskbar */}
+      {/* Footer */}
+      {viewMode === 'retro' && (
+        <div className="flex-shrink-0 fixed bottom-0 left-0 right-0 z-[10000]">
           <Taskbar 
             windows={windows} 
             activeWindowId={activeWindowId} 
@@ -240,10 +275,9 @@ export default function App() {
               }
             }}
             time={time}
+            onToggleView={toggleViewMode}
           />
-        </>
-      ) : (
-        <ModernLayout />
+        </div>
       )}
     </div>
   );

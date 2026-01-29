@@ -18,7 +18,7 @@ const ProjectsApp: React.FC = () => {
               className={`flex items-center gap-2 p-1 text-xs cursor-default hover:bg-[#000080] hover:text-white ${selected?.title === p.title ? 'bg-[#000080] text-white' : ''}`}
             >
               <span>📁</span>
-              <span className="truncate">{p.title}.lnk</span>
+              <span className="truncate">{p.title}</span>
             </div>
           ))}
         </div>
@@ -34,7 +34,7 @@ const ProjectsApp: React.FC = () => {
                <span>Status: LIVE</span>
             </div>
             <div className="retro-border-inset p-1 bg-gray-200">
-               <img src={`https://picsum.photos/seed/${selected.title}/400/200`} alt="Project Preview" className="w-full h-auto" />
+               <img src={selected.icon} alt={selected.title} className="w-[20%] h-auto" />
             </div>
             <p className="text-sm font-serif text-gray-800 leading-relaxed bg-yellow-50 p-3 italic border border-yellow-200">
               {selected.content || selected.description}

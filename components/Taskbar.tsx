@@ -7,9 +7,10 @@ interface TaskbarProps {
   activeWindowId: AppId | null;
   onAppClick: (id: AppId) => void;
   time: Date;
+  onToggleView?: () => void;
 }
 
-const Taskbar: React.FC<TaskbarProps> = ({ windows, activeWindowId, onAppClick, time }) => {
+const Taskbar: React.FC<TaskbarProps> = ({ windows, activeWindowId, onAppClick, time, onToggleView }) => {
   const [startMenuOpen, setStartMenuOpen] = useState(false);
 
   return (
@@ -66,6 +67,18 @@ const Taskbar: React.FC<TaskbarProps> = ({ windows, activeWindowId, onAppClick, 
                </div>
              ))}
              <div className="h-px bg-gray-400 my-1 mx-2"></div>
+             {onToggleView && (
+               <div 
+                 className="flex items-center gap-3 px-4 py-2 hover:bg-[#000080] hover:text-white cursor-pointer"
+                 onClick={() => {
+                   onToggleView();
+                   setStartMenuOpen(false);
+                 }}
+               >
+                  <span className="text-xl">🚀</span>
+                  <span className="text-sm">Switch to Modern</span>
+               </div>
+             )}
              <div className="flex items-center gap-3 px-4 py-2 hover:bg-[#000080] hover:text-white cursor-pointer">
                 <span className="text-xl">🚪</span>
                 <span className="text-sm">Log Off...</span>
