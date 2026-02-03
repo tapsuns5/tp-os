@@ -56,6 +56,17 @@ export const PROJECTS: Project[] = [
     iconType: 'image',
     url: 'https://tryscheeme.com',
     content: 'A productivity tool designed for remote teams. Uses real-time communication to allow squads to sync their focus sessions and breaks.'
+  },
+  { 
+    title: 'VibeCheck Scanner', 
+    description: 'Open source repo scanner that catches security leaks and informs on React best practices before production.', 
+    year: '2026', 
+    tech: ['React', 'TypeScript', 'Node.js', 'Security Analysis'],
+    icon: '/assets/vibecheck/vibe-check.png',
+    iconType: 'image',
+    githubUrl: 'https://github.com/tapsuns5/VibeCheck-Scanner',
+    url: 'https://github.com/tapsuns5/VibeCheck-Scanner',
+    content: 'A comprehensive security and best practices scanner for React repositories. Features 50+ security checks, Prisma security validation, Next.js pattern detection, and real-time terminal interface for monitoring scan results.'
   }
 ];
 

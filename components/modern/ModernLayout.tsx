@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { EXPERIENCES, PROJECTS, BIO, getBlogPosts } from '../../constants/data';
 import { BlogPost } from '../../types';
 import BlogPostPage from '../BlogPostPage';
+import VibecheckApp from '../../VibecheckApp';
 
-type ModernTab = 'home' | 'writing' | 'work' | 'projects';
+type ModernTab = 'home' | 'writing' | 'work' | 'projects' | 'vibecheck';
 
 const ModernLayout: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ModernTab>('home');
@@ -40,10 +41,25 @@ const ModernLayout: React.FC = () => {
     loadBlogPosts();
   }, []);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    if (tab === 'home' || tab === 'writing' || tab === 'work' || tab === 'projects' || tab === 'vibecheck') {
+      setActiveTab(tab);
+    }
+  }, []);
+
   const toggleSidebar = () => {
     if (isMobile) {
       setIsSidebarOpen(!isSidebarOpen);
     }
+  };
+
+  const updateTab = (newTab: ModernTab) => {
+    setActiveTab(newTab);
+    const url = new URL(window.location.href);
+    url.searchParams.set('tab', newTab);
+    window.history.replaceState({}, '', url);
   };
 
   const sidebarBaseClasses = "border-r border-zinc-800 flex flex-col bg-[#111111] transition-all duration-300 ease-in-out overflow-hidden";
@@ -91,40 +107,50 @@ const ModernLayout: React.FC = () => {
               label="Home"
               isActive={activeTab === "home"}
               onClick={() => {
-                setActiveTab("home");
+                updateTab("home");
                 if (isMobile) setIsSidebarOpen(false);
               }}
-              expanded={isSidebarOpen}
+              expanded={!isMobile || isSidebarOpen}
             />
             <NavItem
               icon={<WritingIcon />}
               label="Writing"
               isActive={activeTab === "writing"}
               onClick={() => {
-                setActiveTab("writing");
+                updateTab("writing");
                 if (isMobile) setIsSidebarOpen(false);
               }}
-              expanded={isSidebarOpen}
+              expanded={!isMobile || isSidebarOpen}
             />
             <NavItem
               icon={<WorkIcon />}
               label="Work"
               isActive={activeTab === "work"}
               onClick={() => {
-                setActiveTab("work");
+                updateTab("work");
                 if (isMobile) setIsSidebarOpen(false);
               }}
-              expanded={isSidebarOpen}
+              expanded={!isMobile || isSidebarOpen}
             />
             <NavItem
               icon={<ProjectIcon />}
               label="Projects"
               isActive={activeTab === "projects"}
               onClick={() => {
-                setActiveTab("projects");
+                updateTab("projects");
                 if (isMobile) setIsSidebarOpen(false);
               }}
-              expanded={isSidebarOpen}
+              expanded={!isMobile || isSidebarOpen}
+            />
+            <NavItem
+              icon={<VibecheckIcon />}
+              label="VibeCheck"
+              isActive={activeTab === "vibecheck"}
+              onClick={() => {
+                updateTab("vibecheck");
+                if (isMobile) setIsSidebarOpen(false);
+              }}
+              expanded={!isMobile || isSidebarOpen}
             />
           </nav>
 
@@ -203,6 +229,7 @@ const ModernLayout: React.FC = () => {
                 {activeTab === "writing" && <WritingView blogPosts={blogPosts} loadingBlogs={loadingBlogs} onPostSelect={setSelectedPost} />}
                 {activeTab === "work" && <WorkView />}
                 {activeTab === "projects" && <ProjectsView />}
+                {activeTab === "vibecheck" && <VibecheckApp />}
               </>
             )}
           </div>
@@ -216,6 +243,7 @@ const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="non
 const WritingIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>;
 const WorkIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>;
 const ProjectIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>;
+const VibecheckIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>;
 const MenuIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>;
 const CloseMenuIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>;
 
@@ -226,7 +254,7 @@ const NavItem = ({ icon, label, isActive, onClick, expanded }: any) => (
       ${isActive ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-zinc-500 hover:text-zinc-200'}`}
   >
     <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>{icon}</div>
-    <span className={`font-semibold tracking-tight transition-opacity duration-300 ${expanded ? 'opacity-100' : 'opacity-0 lg:hidden'}`}>{label}</span>
+    <span className={`font-semibold tracking-tight transition-opacity duration-300 ${expanded ? 'opacity-100' : 'opacity-0'}`}>{label}</span>
   </button>
 );
 

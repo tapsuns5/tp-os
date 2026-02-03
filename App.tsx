@@ -13,6 +13,7 @@ import MinesweeperApp from './components/apps/Minesweeper';
 import SnakeApp from './components/apps/Snake';
 import WritingApp from './components/apps/Writing';
 import ModernLayout from './components/modern/ModernLayout';
+import VibecheckApp from './VibecheckApp';
 
 const INITIAL_WINDOWS: Record<AppId, WindowState> = {
   about: {
@@ -95,6 +96,16 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
     x: 220,
     y: 180,
   },
+  vibecheck: {
+    id: "vibecheck",
+    title: "VibeCheck Scanner",
+    icon: "🔍",
+    isOpen: false,
+    isMinimized: false,
+    zIndex: 10,
+    x: 250,
+    y: 150,
+  },
 };
 
 type ViewMode = 'retro' | 'modern';
@@ -126,6 +137,19 @@ export default function App() {
     const view = urlParams.get('view');
     if (view === 'modern' || view === 'retro') {
       setViewMode(view);
+    }
+    
+    // Handle /vibecheck route
+    if (window.location.pathname === '/vibecheck') {
+      setWindows(prev => {
+        const nextZ = maxZ + 1;
+        setMaxZ(nextZ);
+        setActiveWindowId('vibecheck');
+        return {
+          ...prev,
+          vibecheck: { ...prev.vibecheck, isOpen: true, isMinimized: false, zIndex: nextZ }
+        };
+      });
     }
   }, []);
 
@@ -190,6 +214,7 @@ export default function App() {
       case 'skills': return <SkillsApp />;
       case 'minesweeper': return <MinesweeperApp />;
       case 'snake': return <SnakeApp />;
+      case 'vibecheck': return <VibecheckApp />;
       default: return <div className="p-4">Under Construction... 🏗️</div>;
     }
   };
@@ -197,10 +222,10 @@ export default function App() {
   return (
     <div className={`h-screen w-screen overflow-hidden flex flex-col relative ${viewMode === 'retro' ? 'bg-[#008080]' : 'bg-[#09090b]'}`}>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 h-16 flex items-center justify-end px-4 z-[10001]">
+      <div className={`fixed top-0 left-0 right-0 h-16 flex items-center justify-end px-4 z-[10001] ${viewMode === 'retro' && Object.values(windows).some(w => w.isOpen && !w.isMinimized) ? 'pointer-events-none' : ''}`}>
         <button 
           onClick={toggleViewMode}
-          className={`px-3 py-1.5 rounded-md font-bold transition-all border-2 flex items-center gap-2 shadow-lg
+          className={`px-3 py-1.5 rounded-md font-bold transition-all border-2 flex items-center gap-2 shadow-lg hover:pointer-events-auto
             ${viewMode === 'retro' 
               ? 'retro-border-outset text-black bg-[#c0c0c0] active:retro-border-inset' 
               : 'bg-white/10 hover:bg-white/20 border-white/20 text-white'}`}
