@@ -1,0 +1,50 @@
+# Ensure Hostinger/LiteSpeed serves static assets with correct MIME types
+# and only rewrites unknown routes to index.html for the SPA.
+<IfModule mod_mime.c>
+  AddType text/css .css
+  AddType application/javascript .js
+  AddType application/wasm .wasm
+  AddType font/woff .woff
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+</IfModule>
+
+# LiteSpeed/Hostinger-specific MIME type enforcement
+<FilesMatch "\.(css|js|wasm)$">
+  <IfModule mod_headers.c>
+    Header always set Content-Type "text/css" "expr=%{REQUEST_URI} =~ /\.css$/"
+    Header always set Content-Type "application/javascript" "expr=%{REQUEST_URI} =~ /\.js$/"
+    Header always set Content-Type "application/wasm" "expr=%{REQUEST_URI} =~ /\.wasm$/"
+  </IfModule>
+</FilesMatch>
+
+# Force MIME types for LiteSpeed
+<FilesMatch "\.css$">
+  ForceType text/css
+</FilesMatch>
+<FilesMatch "\.js$">
+  ForceType application/javascript
+</FilesMatch>
+<FilesMatch "\.wasm$">
+  ForceType application/wasm
+</FilesMatch>
+
+# Disable LiteSpeed cache for assets to prevent HTML responses
+<IfModule mod_litespeed.c>
+  Cache-Control no-cache
+  Cache-Control no-store
+  Cache-Control must-revalidate
+  Cache-Control max-age=0
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Allow existing files and directories through without rewriting
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else gets the SPA entry point
+  RewriteRule ^ index.html [L]
+</IfModule>

@@ -65,7 +65,7 @@ export const PROJECTS: Project[] = [
     icon: '/assets/vibecheck/vibe-check.png',
     iconType: 'image',
     githubUrl: 'https://github.com/tapsuns5/VibeCheck-Scanner',
-    url: 'https://github.com/tapsuns5/VibeCheck-Scanner',
+    url: 'https://vibecheck.tylerpalmer5.com',
     content: 'A comprehensive security and best practices scanner for React repositories. Features 50+ security checks, Prisma security validation, Next.js pattern detection, and real-time terminal interface for monitoring scan results.'
   }
 ];
