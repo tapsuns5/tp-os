@@ -109,6 +109,7 @@ const INITIAL_WINDOWS: Record<AppId, WindowState> = {
 
 type ViewMode = "retro" | "modern";
 
+
 export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>("retro");
   const [windows, setWindows] =
@@ -274,7 +275,7 @@ export default function App() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-h-0 relative overflow-hidden pt-16 pb-14">
+      <div className="flex-1 min-h-0 relative overflow-hidden">
         {viewMode === "retro" ? (
           <div className="flex flex-col h-full min-h-0 relative">
             <div className="flex-1 min-h-0 relative">
