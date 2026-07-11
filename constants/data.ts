@@ -2,13 +2,13 @@
 import { Project, Experience, BlogPost } from '../types';
 import { getAllBlogPosts } from '../services/blogService';
 
-export const BIO = "Hi I'm [PROFILE_PIC] Tyler Palmer,\n\nI'm a jock turned product builder. I love crafting interfaces and coding solutions with unlimited possibilities. I am currently building [SCHEEME_ICON]Scheeme, so follow as a build in public on [X_ICON]. When I am not building, I am running 🏃, playing golf 🏌️, or rooting on my favorite sports teams [MIAMI_LOGO][MIAMI_HEAT_LOGO][MIAMI_DOLPHINS_LOGO][FLORIDA_PANTHERS_LOGO][FLORIDA_MARLINS_LOGO].";
+export const BIO = "Hi I'm [PROFILE_PIC] Tyler Palmer,\n\nI'm a jock turned product builder. I have worked in sports tech, e-commerce, and SaaS for the past 10 years. I am currently a Sr. Product Manager at [TEAMSNAP_ICON]TeamSnap. In my spare time, I build side projects like [SCHEEME_ICON]Scheeme. I am active on [X_ICON], so follow me there. When I am not building, I am running 🏃, playing golf 🏌️, or rooting on my favorite sports teams [MIAMI_LOGO][MIAMI_HEAT_LOGO][MIAMI_DOLPHINS_LOGO][FLORIDA_PANTHERS_LOGO][FLORIDA_MARLINS_LOGO].";
 
 export const EXPERIENCES: Experience[] = [
   {
     company: 'TeamSnap',
     role: 'Senior Product Manager',
-    period: '2019 — 2026',
+    period: '2026 — Present',
     description: 'SAAS, Payments, Retention',
     achievements: ['Improved SAAS retention by 20%']
   },
