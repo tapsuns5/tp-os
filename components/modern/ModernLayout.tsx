@@ -17,7 +17,7 @@ const ModernLayout: React.FC = () => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      if (mobile) setIsSidebarOpen(false);
+      setIsSidebarOpen(!mobile);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -198,13 +198,11 @@ const ModernLayout: React.FC = () => {
             </button>
           )}
 
-          <div className="lg:hidden text-white font-bold text-sm tracking-tight">
-            TYLER PALMER
-          </div>
+
           <div className="w-10 h-10 lg:hidden"></div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-8 md:p-12 lg:p-24 scroll-smooth">
+        <main className="flex-1 overflow-y-auto p-8 md:p-8 lg:p-16 pb-16 lg:pb-24 max-[640px]:pb-48 scroll-smooth">
           <div className="max-w-5xl mx-auto">
             {selectedPost ? (
               <BlogPostPage
@@ -380,7 +378,7 @@ const HomeView = ({
           index === 0 ? (
             part.split("\n").map((line, lineIndex) => (
               <React.Fragment key={lineIndex}>
-                {lineIndex > 0 && <br />}
+                {lineIndex > 0 && <span className="block"></span>}
                 {line}
               </React.Fragment>
             ))
@@ -397,7 +395,7 @@ const HomeView = ({
                     xIndex === 0 ? (
                       xPart.split("\n").map((line, lineIndex) => (
                         <React.Fragment key={lineIndex}>
-                          {lineIndex > 0 && <br />}
+                          {lineIndex > 0 && <span className="block"></span>}
                           {line}
                         </React.Fragment>
                       ))
@@ -491,7 +489,9 @@ const HomeView = ({
                                                                 key={lineIndex}
                                                               >
                                                                 {lineIndex >
-                                                                  0 && <br />}
+                                                                  0 && (
+                                                                    <span className="block"></span>
+                                                                  )}
                                                                 {line}
                                                               </React.Fragment>
                                                             ),
@@ -530,7 +530,7 @@ const HomeView = ({
                                                                         >
                                                                           {lineIndex >
                                                                             0 && (
-                                                                            <br />
+                                                                            <span className="block"></span>
                                                                           )}
                                                                           {line}
                                                                         </React.Fragment>
@@ -563,7 +563,7 @@ const HomeView = ({
                                                                           >
                                                                             {lineIndex >
                                                                               0 && (
-                                                                              <br />
+                                                                              <span className="block"></span>
                                                                             )}
                                                                             {
                                                                               line
@@ -687,7 +687,9 @@ const HomeView = ({
                                                                 key={lineIndex}
                                                               >
                                                                 {lineIndex >
-                                                                  0 && <br />}
+                                                                  0 && (
+                                                                    <span className="block"></span>
+                                                                  )}
                                                                 {line}
                                                               </React.Fragment>
                                                             ),
@@ -726,8 +728,8 @@ const HomeView = ({
                                                                         >
                                                                           {lineIndex >
                                                                             0 && (
-                                                                            <br />
-                                                                          )}
+                                                                              <span className="block"></span>
+                                                                            )}
                                                                           {line}
                                                                         </React.Fragment>
                                                                       ),
@@ -759,8 +761,8 @@ const HomeView = ({
                                                                           >
                                                                             {lineIndex >
                                                                               0 && (
-                                                                              <br />
-                                                                            )}
+                                                                                <span className="block"></span>
+                                                                              )}
                                                                             {
                                                                               line
                                                                             }
@@ -794,7 +796,9 @@ const HomeView = ({
                                           .split("\n")
                                           .map((line, lineIndex) => (
                                             <React.Fragment key={lineIndex}>
-                                              {lineIndex > 0 && <br />}
+                                              {lineIndex > 0 && (
+                                                <span className="block"></span>
+                                              )}
                                               {line}
                                             </React.Fragment>
                                           ))
@@ -817,7 +821,7 @@ const HomeView = ({
                                                         key={lineIndex}
                                                       >
                                                         {lineIndex > 0 && (
-                                                          <br />
+                                                          <span className="block"></span>
                                                         )}
                                                         {line}
                                                       </React.Fragment>
@@ -856,7 +860,7 @@ const HomeView = ({
                                                                   >
                                                                     {lineIndex >
                                                                       0 && (
-                                                                      <br />
+                                                                      <span className="block"></span>
                                                                     )}
                                                                     {line}
                                                                   </React.Fragment>
@@ -900,8 +904,8 @@ const HomeView = ({
                                                                             >
                                                                               {lineIndex >
                                                                                 0 && (
-                                                                                <br />
-                                                                              )}
+                                                                                  <span className="block"></span>
+                                                                                )}
                                                                               {
                                                                                 line
                                                                               }
@@ -935,7 +939,7 @@ const HomeView = ({
                                                                               >
                                                                                 {lineIndex >
                                                                                   0 && (
-                                                                                  <br />
+                                                                                  <span className="block"></span>
                                                                                 )}
                                                                                 {
                                                                                   line

@@ -64,55 +64,62 @@ const AboutApp: React.FC = () => {
           <h2 className="bg-[#000080] text-white px-2 py-0.5 text-sm font-bold mb-3">
             ABOUT ME
           </h2>
-          <p className="text-sm leading-relaxed text-gray-800 italic">
-            {(() => {
-              const parts = BIO.split(/(\[PROFILE_PIC]|\[SCHEEME_ICON]|\[X_ICON]|\[MIAMI_LOGO]|\[MIAMI_HEAT_LOGO]|\[MIAMI_DOLPHINS_LOGO]|\[FLORIDA_PANTHERS_LOGO]|\[FLORIDA_MARLINS_LOGO])/);
-              
-              return parts.map((part, index) => {
-                switch(part) {
-                  case '[PROFILE_PIC]':
-                    return <img key={index} src="/profile-pic-um.png" alt="Profile" className="inline-block w-8 h-8 rounded-full mx-1 align-middle" />;
-                  case '[SCHEEME_ICON]':
-                    return (
-                      <img 
-                        key={index} 
-                        src="/scheemeIcon.png" 
-                        alt="Scheeme" 
-                        className="inline-block w-5 h-5 mx-1 align-middle cursor-pointer" 
-                        onClick={() => window.open('https://tryscheeme.com', '_blank')}
-                      />
-                    );
-                  case '[X_ICON]':
-                    return (
-                      <img 
-                        key={index} 
-                        src="/x-icon-black.png" 
-                        alt="X" 
-                        className="inline-block w-5 h-5 mx-1 align-middle cursor-pointer" 
-                        onClick={() => window.open('https://x.com/Tyler_Palmer9', '_blank')}
-                      />
-                    );
-                  case '[MIAMI_LOGO]':
-                    return <img key={index} src="/Miami_Hurricanes_logo.svg" alt="Miami Hurricanes" className="inline-block w-5 h-5 mx-1 align-middle" />;
-                  case '[MIAMI_HEAT_LOGO]':
-                    return <img key={index} src="/miami-heat-logo-vice-symbol.png" alt="Miami Heat" className="inline-block w-5 h-5 mx-1 align-middle" />;
-                  case '[MIAMI_DOLPHINS_LOGO]':
-                    return <img key={index} src="/miami_dolphins_1997-2002.png" alt="Miami Dolphins" className="inline-block w-5 h-5 mx-1 align-middle" />;
-                  case '[FLORIDA_PANTHERS_LOGO]':
-                    return <img key={index} src="/Florida_Panthers_2016_logo.svg" alt="Florida Panthers" className="inline-block w-5 h-5 mx-1 align-middle" />;
-                  case '[FLORIDA_MARLINS_LOGO]':
-                    return <img key={index} src="/florida-marlins.png" alt="Florida Marlins" className="inline-block w-5 h-5 mx-1 align-middle" />;
-                  default:
-                    return part.split('\n').map((line, lineIndex) => (
-                      <React.Fragment key={`${index}-${lineIndex}`}>
-                        {lineIndex > 0 && <br />}
-                        {line}
-                      </React.Fragment>
-                    ));
-                }
-              });
-            })()}
-          </p>
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Bio Text on Left */}
+            <div className="flex-1 text-sm leading-relaxed text-gray-800 italic">
+              {(() => {
+                const parts = BIO.split(/(\[PROFILE_PIC]|\[SCHEEME_ICON]|\[X_ICON]|\[MIAMI_LOGO]|\[MIAMI_HEAT_LOGO]|\[MIAMI_DOLPHINS_LOGO]|\[FLORIDA_PANTHERS_LOGO]|\[FLORIDA_MARLINS_LOGO])/);
+                
+                return parts.map((part, index) => {
+                  switch(part) {
+                    case '[PROFILE_PIC]':
+                      return <img key={index} src="/profile-pic-um.png" alt="Profile" className="inline-block w-8 h-8 rounded-full mx-1 align-middle" />;
+                    case '[SCHEEME_ICON]':
+                      return (
+                        <img 
+                          key={index} 
+                          src="/scheemeIcon.png" 
+                          alt="Scheeme" 
+                          className="inline-block w-5 h-5 mx-1 align-middle cursor-pointer" 
+                          onClick={() => window.open('https://tryscheeme.com', '_blank')}
+                        />
+                      );
+                    case '[X_ICON]':
+                      return (
+                        <img 
+                          key={index} 
+                          src="/x-icon-black.png" 
+                          alt="X" 
+                          className="inline-block w-5 h-5 mx-1 align-middle cursor-pointer" 
+                          onClick={() => window.open('https://x.com/Tyler_Palmer9', '_blank')}
+                        />
+                      );
+                    case '[MIAMI_LOGO]':
+                      return <img key={index} src="/Miami_Hurricanes_logo.svg" alt="Miami Hurricanes" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                    case '[MIAMI_HEAT_LOGO]':
+                      return <img key={index} src="/miami-heat-logo-vice-symbol.png" alt="Miami Heat" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                    case '[MIAMI_DOLPHINS_LOGO]':
+                      return <img key={index} src="/miami_dolphins_1997-2002.png" alt="Miami Dolphins" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                    case '[FLORIDA_PANTHERS_LOGO]':
+                      return <img key={index} src="/Florida_Panthers_2016_logo.svg" alt="Florida Panthers" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                    case '[FLORIDA_MARLINS_LOGO]':
+                      return <img key={index} src="/florida-marlins.png" alt="Florida Marlins" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                    default:
+                      return part.split('\n').map((line, lineIndex) => (
+                        <React.Fragment key={`${index}-${lineIndex}`}>
+                          {lineIndex > 0 && <br />}
+                          {line}
+                        </React.Fragment>
+                      ));
+                  }
+                });
+              })()}
+            </div>
+            
+            {/* Icons on Right */}
+            <div className="md:w-48 space-y-4">
+            </div>
+          </div>
         </div>
 
         {/* Vertical Timeline Experience Section */}

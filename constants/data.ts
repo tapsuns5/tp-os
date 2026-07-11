@@ -6,6 +6,13 @@ export const BIO = "Hi I'm [PROFILE_PIC] Tyler Palmer,\n\nI'm a jock turned prod
 
 export const EXPERIENCES: Experience[] = [
   {
+    company: 'TeamSnap',
+    role: 'Senior Product Manager',
+    period: '2019 — 2026',
+    description: 'SAAS, Payments, Retention',
+    achievements: ['Improved SAAS retention by 20%']
+  },
+  {
     company: 'Snap! Mobile',
     role: 'Senior Product Manager',
     period: '2019 — 2026',

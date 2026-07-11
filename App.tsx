@@ -13,6 +13,96 @@ import SnakeApp from "./components/apps/Snake";
 import WritingApp from "./components/apps/Writing";
 import ModernLayout from "./components/modern/ModernLayout";
 import VibecheckApp from "./VibecheckApp";
+import { BIO } from "./constants/data";
+
+const RetroHomeView: React.FC<{ onOpenApp: (id: AppId) => void }> = ({ onOpenApp }) => {
+  return (
+    <div className="h-full p-8 pb-16 max-[640px]:pb-48 bg-[#008080] overflow-auto">
+      <div className="max-w-8xl mx-auto">
+        <div className="flex flex-row max-[640px]:flex-col gap-12 items-start">
+          {/* Bio Content on Left */}
+          <div className="retro-border-outset p-8 flex-none w-[600px] max-w-full max-[640px]:w-full">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-4xl font-bold text-blue-900 mb-6">Tyler Palmer</h1>
+              <p className="text-lg leading-relaxed text-gray-800 mb-6">
+                {(() => {
+                  const parts = BIO.split(/(\[[^\]]+\])/);
+                  
+                  return parts.map((part, index) => {
+                    switch(part) {
+                      case '[PROFILE_PIC]':
+                        return (
+                          <img
+                            key={index}
+                            src="/profile-pic-um.png"
+                            alt="Profile"
+                            className="inline-block w-8 h-8 rounded-full ml-2 align-middle"
+                          />
+                        );
+                      case '[SCHEEME_ICON]':
+                        return (
+                          <img
+                            key={index}
+                            src="/scheemeIcon.png"
+                            alt="Scheeme"
+                            className="inline-block w-6 h-6 mr-2 align-middle cursor-pointer"
+                            onClick={() => window.open("https://tryscheeme.com", "_blank")}
+                          />
+                        );
+                      case '[X_ICON]':
+                        return (
+                          <img
+                            key={index}
+                            src="/x-icon.png"
+                            alt="X"
+                            className="inline-block w-5 h-5 mx-1 align-middle cursor-pointer"
+                            onClick={() => window.open("https://x.com/Tyler_Palmer9", "_blank")}
+                          />
+                        );
+                      case '[MIAMI_LOGO]':
+                        return <img key={index} src="/Miami_Hurricanes_logo.svg" alt="Miami Hurricanes" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                      case '[MIAMI_HEAT_LOGO]':
+                        return <img key={index} src="/miami-heat-logo-vice-symbol.png" alt="Miami Heat" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                      case '[MIAMI_DOLPHINS_LOGO]':
+                        return <img key={index} src="/miami_dolphins_1997-2002.png" alt="Miami Dolphins" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                      case '[FLORIDA_PANTHERS_LOGO]':
+                        return <img key={index} src="/Florida_Panthers_2016_logo.svg" alt="Florida Panthers" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                      case '[FLORIDA_MARLINS_LOGO]':
+                        return <img key={index} src="/florida-marlins.png" alt="Florida Marlins" className="inline-block w-5 h-5 mx-1 align-middle" />;
+                      default:
+                        return part.split('\n').map((line, lineIndex) => (
+                          <React.Fragment key={`${index}-${lineIndex}`}>
+                            {lineIndex > 0 && <span className="block"></span>}
+                            {line}
+                          </React.Fragment>
+                        ));
+                    }
+                  });
+                })()}
+              </p>
+            </div>
+          </div>
+
+          {/* Desktop Icons on Right */}
+          <div className="flex-1 min-w-[220px]">
+            <div className="grid grid-cols-2 gap-6">
+              {(Object.values(INITIAL_WINDOWS) as WindowState[]).map(
+                (app) => (
+                  <DesktopIcon
+                    key={app.id}
+                    title={app.title}
+                    icon={app.icon}
+                    onDoubleClick={() => onOpenApp(app.id)}
+                  />
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const INITIAL_WINDOWS: Record<AppId, WindowState> = {
   about: {
@@ -259,11 +349,11 @@ export default function App() {
     >
       {/* Header */}
       <div
-        className={`fixed top-0 left-0 right-0 h-16 flex items-center justify-end px-4 z-[10001] ${viewMode === "retro" && (Object.values(windows) as WindowState[]).some((w) => w.isOpen && !w.isMinimized) ? "pointer-events-none" : ""}`}
+        className="fixed top-0 left-0 right-0 h-16 flex items-center justify-end px-4 z-[10001] pointer-events-none"
       >
         <button
           onClick={toggleViewMode}
-          className={`px-3 py-1.5 rounded-md font-bold transition-all border-2 flex items-center gap-2 shadow-lg hover:pointer-events-auto
+          className={`pointer-events-auto px-3 py-1.5 rounded-md font-bold transition-all border-2 flex items-center gap-2 shadow-lg
             ${
               viewMode === "retro"
                 ? "retro-border-outset text-black bg-[#c0c0c0] active:retro-border-inset"
@@ -279,21 +369,8 @@ export default function App() {
         {viewMode === "retro" ? (
           <div className="flex flex-col h-full min-h-0 relative">
             <div className="flex-1 min-h-0 relative">
-              {/* Desktop Icons Area */}
-              <div
-                className={`h-full ${isMobile ? "p-4 flex flex-wrap gap-4 overflow-auto" : "p-4 grid grid-flow-col grid-rows-6 gap-6 w-fit h-full overflow-auto"}`}
-              >
-                {(Object.values(INITIAL_WINDOWS) as WindowState[]).map(
-                  (app) => (
-                    <DesktopIcon
-                      key={app.id}
-                      title={app.title}
-                      icon={app.icon}
-                      onDoubleClick={() => openApp(app.id)}
-                    />
-                  ),
-                )}
-              </div>
+              {/* Retro Home View */}
+              <RetroHomeView onOpenApp={openApp} />
 
               {/* Windows Layer (absolute overlay so footer stays sticky) */}
               <div className="absolute inset-0 pointer-events-none">
