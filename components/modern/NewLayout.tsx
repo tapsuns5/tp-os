@@ -70,8 +70,18 @@ const NAV_ITEMS: { id: Tab; label: string; shortcut: string; icon: React.FC }[] 
   { id: "work", label: "Work", shortcut: "5", icon: WorkIcon },
 ];
 
-const RESOURCE_ITEMS: { label: string; shortcut: string; url: string; icon: React.FC }[] = [
-  { label: "VibeCheck", shortcut: "6", url: "https://vibecheck.tylerpalmer5.com", icon: VibecheckIcon },
+const RESOURCE_ITEMS: {
+  label: string;
+  shortcut: string;
+  url: string;
+  icon: React.FC;
+}[] = [
+  {
+    label: "VibeCheck",
+    shortcut: "6",
+    url: "https://github.com/tapsuns5/VibeCheck-Scanner",
+    icon: VibecheckIcon,
+  },
 ];
 
 function getGreeting(): string {
@@ -241,7 +251,6 @@ const NewLayout: React.FC = () => {
                 >
                   <Icon />
                   <span>{item.label}</span>
-                  <span className="nav-shortcut">{item.shortcut}</span>
                 </div>
               );
             })}
@@ -253,7 +262,6 @@ const NewLayout: React.FC = () => {
                 <div key={item.label} className="nav-item" onClick={() => window.open(item.url, "_blank")}>
                   <Icon />
                   <span>{item.label}</span>
-                  <span className="nav-shortcut">{item.shortcut}</span>
                 </div>
               );
             })}
@@ -262,10 +270,10 @@ const NewLayout: React.FC = () => {
             <div className="nav-item" onClick={() => { window.location.href = "mailto:tylerpalmer5@gmail.com"; }}>
               <ContactIcon />
               <span>Contact</span>
-              <span className="nav-shortcut">/</span>
             </div>
             <div className="nav-item" onClick={() => window.open("https://x.com/Tyler_Palmer9", "_blank")}>
-              <img src="/x-icon.png" alt="X" className="w-[18px] h-[18px]" />
+              <img src="/logo-black.png" alt="X" className="w-[18px] h-[18px] x-icon-light" />
+              <img src="/x-icon.png" alt="X" className="w-[18px] h-[18px] x-icon-dark" />
               <span>Twitter</span>
               <span className="ml-auto text-[14px] opacity-50">↗</span>
             </div>
@@ -440,7 +448,8 @@ const AboutView: React.FC = () => (
     <div className="pt-8 border-t" style={{ borderColor: "var(--border)" }}>
       <h2 className="section-title mb-4">Connect</h2>
       <div className="flex gap-4">
-        <img src="/x-icon.png" alt="X" className="w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" onClick={() => window.open("https://x.com/Tyler_Palmer9", "_blank")} />
+        <img src="/logo-black.png" alt="X" className="w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity x-icon-light" onClick={() => window.open("https://x.com/Tyler_Palmer9", "_blank")} />
+        <img src="/x-icon.png" alt="X" className="w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity x-icon-dark" onClick={() => window.open("https://x.com/Tyler_Palmer9", "_blank")} />
         <img src="/github-icon-light.svg" alt="GitHub" className="w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" onClick={() => window.open("https://github.com/tapsuns5", "_blank")} />
         <img src="/linkedin-icon.png" alt="LinkedIn" className="w-5 h-5 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" onClick={() => window.open("https://www.linkedin.com/in/tylerpalmer9/", "_blank")} />
       </div>

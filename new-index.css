@@ -18,6 +18,10 @@
   --tile-hover: rgba(0,0,0,0.06);
 }
 
+.x-icon-dark { display: none; }
+[data-theme="dark"] .x-icon-light { display: none; }
+[data-theme="dark"] .x-icon-dark { display: inline-block; }
+
 [data-theme="dark"] {
   --bg: #0a0a0a;
   --bg-sidebar: #111111;
